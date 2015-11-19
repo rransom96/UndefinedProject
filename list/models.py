@@ -26,11 +26,16 @@ class Item(models.Model):
     image = models.URLField()
     list = models.ForeignKey(List)
 
+    @property
     def reserved(self):
-        if self.price - self.pledge_set.aggregate(Sum('amount')) <= 0:
-            return True
-        else:
-            return False
+        total = self.pledge_set.aggregate(Sum('amount'))
+        if len(self.pledge_set.all()) > 0:
+            item_price = float(self.price)
+            pledge_amount = float(total['amount__sum'])
+            if item_price - pledge_amount <= 0:
+                return True
+
+        return False
 
     def __str__(self):
         return self.name
