@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from list.models import Item, List
+from list.models import Item, List, Pledge
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,9 +20,17 @@ class ListSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('title', 'user', 'posted_at', 'item_set', 'price')
 
 
+class PledgeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Pledge
+        fields = ('user', 'item', 'amount')
+
+
 class ItemSerializer(serializers.ModelSerializer):
-    reserved = serializers.ReadOnlyField(source='item.reserved')
+    reserved = serializers.ReadOnlyField()
+    pledge_set = PledgeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Item
-        fields = ('name', 'price', 'description', 'image', 'list', 'reserved')
+        fields = ('name', 'price', 'description', 'image', 'list', 'reserved', 'pledge_set')

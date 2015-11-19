@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
-from api.serializers import UserSerializer, ListSerializer, ItemSerializer
-from list.models import List, Item
+from api.serializers import UserSerializer, ListSerializer, ItemSerializer, PledgeSerializer
+from list.models import List, Item, Pledge
 
 
 class SmallPagination(PageNumberPagination):
@@ -40,3 +40,8 @@ class ListCreateItem(generics.ListCreateAPIView):
 class DetailUpdateItem(generics.RetrieveUpdateDestroyAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+
+
+class ListPledge(generics.ListAPIView):
+    queryset = Pledge.objects.all()
+    serializer_class = PledgeSerializer
