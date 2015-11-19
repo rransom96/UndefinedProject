@@ -14,6 +14,9 @@ class List(models.Model):
             total += items.price
             return total
 
+    def __str__(self):
+        return self.title
+
 
 class Item(models.Model):
     name = models.CharField(max_length=255)
@@ -24,6 +27,9 @@ class Item(models.Model):
 
     # def reserved(self):
     #     if self.price -
+
+    def __str__(self):
+        return self.name
 
 
 # class Pledge(models.Model):
