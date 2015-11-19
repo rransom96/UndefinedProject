@@ -25,6 +25,7 @@ class Item(models.Model):
     description = models.TextField()
     image = models.URLField()
     list = models.ForeignKey(List)
+    item_link = models.URLField()
 
     @property
     def reserved(self):
@@ -46,3 +47,6 @@ class Pledge(models.Model):
     item = models.ForeignKey(Item)
     amount = models.DecimalField(max_digits=11, decimal_places=2)
     pledge_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{} donated'.format(self.user)
