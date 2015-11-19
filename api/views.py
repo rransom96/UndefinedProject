@@ -1,0 +1,42 @@
+from django.contrib.auth.models import User
+from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
+from api.serializers import UserSerializer, ListSerializer, ItemSerializer
+from list.models import List, Item
+
+
+class SmallPagination(PageNumberPagination):
+    page_size = 10
+
+
+class ListUsers(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class ListCreateList(generics.ListCreateAPIView):
+    queryset = List.objects.order_by('posted_at')
+    serializer_class = ListSerializer
+    pagination_class = SmallPagination
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
+
+
+class DetailUpdateList(generics.RetrieveUpdateDestroyAPIView):
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+
+
+class ListCreateItem(generics.ListCreateAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailUpdateItem(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
