@@ -14,15 +14,15 @@ class ListSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
     item_set = serializers.HyperlinkedRelatedField(many=True, queryset=Item.objects.all(),
                                                    view_name='api_item_detail_update')
-    reserved = serializers.ReadOnlyField(source=Item.reserved)
 
     class Meta:
         model = List
-        fields = ('title', 'user', 'posted_at', 'item_set', 'price', 'reserved')
+        fields = ('title', 'user', 'posted_at', 'item_set', 'price')
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    reserved = serializers.ReadOnlyField(source='item.reserved')
 
     class Meta:
         model = Item
-        fields = ('name', 'price', 'description', 'image', 'list')
+        fields = ('name', 'price', 'description', 'image', 'list', 'reserved')
