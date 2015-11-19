@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Sum
 
 
 class List(models.Model):
@@ -25,12 +26,18 @@ class Item(models.Model):
     image = models.URLField()
     list = models.ForeignKey(List)
 
-    # def reserved(self):
-    #     if self.price -
+    def reserved(self):
+        if self.price - self.pledge_set.aggregate(Sum('amount')) <= 0:
+            return True
+        else:
+            return False
 
     def __str__(self):
         return self.name
 
 
-# class Pledge(models.Model):
-#
+class Pledge(models.Model):
+    user = models.ForeignKey(User)
+    item = models.ForeignKey(Item)
+    amount = models.DecimalField(max_digits=11, decimal_places=2)
+    pledge_time = models.DateTimeField(auto_now_add=True)
