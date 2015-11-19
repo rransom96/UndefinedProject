@@ -11,7 +11,7 @@ class List(models.Model):
     def price(self):
         for items in self.item_set.all():
             total = 0.00
-            total += items.price
+            total += float(items.price)
             return total
 
     def __str__(self):
