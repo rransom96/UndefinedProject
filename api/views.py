@@ -9,9 +9,12 @@ class SmallPagination(PageNumberPagination):
     page_size = 10
 
 
-class ListUsers(generics.ListAPIView):
+class ListCreateUsers(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
 
 
 class ListCreateList(generics.ListCreateAPIView):
