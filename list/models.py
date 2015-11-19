@@ -19,7 +19,7 @@ class Item(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=11, decimal_places=2)
     description = models.TextField()
-    image = models.ImageField()
+    image = models.URLField()
     list = models.ForeignKey(List)
 
     # def reserved(self):
