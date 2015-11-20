@@ -18,8 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ListSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
-    item_set = serializers.HyperlinkedRelatedField(many=True, queryset=Item.objects.all(),
-                                                   view_name='api_item_detail_update')
+    item_set = ItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = List
