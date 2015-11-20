@@ -47,7 +47,7 @@ class DetailUpdateItem(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ItemSerializer
 
 
-class ListCreatePledge(generics.ListCreateAPIView):
+class ListPledge(generics.ListCreateAPIView):
     queryset = Pledge.objects.all()
     serializer_class = PledgeSerializer
 
