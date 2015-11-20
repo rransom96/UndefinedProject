@@ -16,15 +16,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class ListSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.ReadOnlyField(source='user.id')
-    item_set = ItemSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = List
-        fields = ('title', 'user', 'posted_at', 'item_set', 'price')
-
-
 class PledgeSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -39,3 +30,14 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ('name', 'price', 'description', 'image', 'list', 'item_link', 'reserved', 'pledge_set')
+
+
+class ListSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+    item_set = ItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = List
+        fields = ('title', 'user', 'posted_at', 'item_set', 'price')
+
+
