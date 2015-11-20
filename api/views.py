@@ -1,8 +1,10 @@
+
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from api.serializers import UserSerializer, ListSerializer, ItemSerializer, PledgeSerializer
 from list.models import List, Item, Pledge
+import stripe
 
 
 class SmallPagination(PageNumberPagination):
@@ -45,6 +47,10 @@ class DetailUpdateItem(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ItemSerializer
 
 
-class ListPledge(generics.ListAPIView):
+class ListCreatePledge(generics.ListCreateAPIView):
     queryset = Pledge.objects.all()
     serializer_class = PledgeSerializer
+
+    # def perform_create(self, serializer):
+    #     stripe.api_key = STRIPE_API_KEY
+    #     token =

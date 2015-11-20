@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from list.models import Item, List, Pledge
+import stripe
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,7 +21,22 @@ class PledgeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pledge
-        fields = ('user', 'item', 'amount')
+        fields = ('is', 'user', 'item', 'amount')
+    #
+    # def create(self, validated_data):
+    #     pledge = Pledge.objects.create(**validated_data)
+    #     try:
+    #         charge = stripe.Charge.create(
+    #             amount=self.amount,
+    #             currency="usd",
+    #             source=validated_data["token"],
+    #             description="Pledge"
+    #         )
+    #         return pledge
+    #     except stripe.error.CardError:
+    #         return
+
+
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -29,7 +45,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('name', 'price', 'description', 'image', 'list', 'item_link', 'reserved', 'pledge_set')
+        fields = ('id', 'name', 'price', 'description', 'image', 'list', 'item_link', 'reserved', 'pledge_set')
 
 
 class ListSerializer(serializers.HyperlinkedModelSerializer):
@@ -38,6 +54,5 @@ class ListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = List
-        fields = ('title', 'user', 'posted_at', 'item_set', 'price')
-
+        fields = ('id', 'title', 'user', 'posted_at', 'item_set', 'price')
 
