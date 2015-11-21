@@ -1,8 +1,9 @@
-
+from christmas_list.settings import STRIPE_API_KEY
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
-from api.serializers import UserSerializer, ListSerializer, ItemSerializer, PledgeSerializer
+from api.serializers import UserSerializer, ListSerializer, ItemSerializer, \
+    PledgeSerializer
 from list.models import List, Item, Pledge
 import stripe
 
@@ -51,6 +52,18 @@ class ListPledge(generics.ListCreateAPIView):
     queryset = Pledge.objects.all()
     serializer_class = PledgeSerializer
 
-    # def perform_create(self, serializer):
-    #     stripe.api_key = STRIPE_API_KEY
-    #     token =
+    def perform_create(self, serializer):
+        stripe.api_key = STRIPE_API_KEY
+        token = serializer.initial_data['test']
+
+        try:
+            charge = stripe.Charge.create(
+            amount= serializer.initial_data['amount'],
+            currency="usd",
+            source=token,
+            description="Pledge"
+        )
+        except stripe.error.CardError:
+            pass
+
+        serializer.save()

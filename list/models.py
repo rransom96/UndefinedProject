@@ -1,3 +1,4 @@
+from datetime import date
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
@@ -6,7 +7,7 @@ from django.db.models import Sum
 class List(models.Model):
     title = models.CharField(max_length=255)
     user = models.ForeignKey(User)
-    deadline = models.DateField()
+    deadline = models.DateField(default=date.today)
     inactive = models.BooleanField(default=False)
     posted_at = models.DateTimeField(auto_now_add=True)
 
@@ -48,7 +49,7 @@ class Pledge(models.Model):
     user = models.ForeignKey(User)
     item = models.ForeignKey(Item)
     amount = models.DecimalField(max_digits=11, decimal_places=2)
-    token = models.CharField(255)
+    token = models.CharField(max_length=255, blank=False, null=True)
     pledge_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
