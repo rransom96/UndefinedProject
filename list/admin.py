@@ -16,4 +16,4 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Pledge)
 class PledgeAdmin(admin.ModelAdmin):
-    list_display = ['user', 'item', 'amount', 'token', 'pledge_time']
+    list_display = ['user', 'item', 'amount', 'charge', 'pledge_time']
