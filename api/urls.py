@@ -2,6 +2,7 @@ from django.conf.urls import url
 from rest_framework.authtoken import views
 from api.views import DetailUpdateList, ListCreateList, DetailUpdateItem, \
     ListCreateItem, ListCreateUsers, ListPledge
+from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     url(r'^api-token-auth/', views.obtain_auth_token),
@@ -14,3 +15,4 @@ urlpatterns = [
     url(r'^users/', ListCreateUsers.as_view(), name='api_user_list'),
     url(r'^pledges/', ListPledge.as_view(), name='api_pledge_list'),
 ]
+urlpatterns = format_suffix_patterns(urlpatterns)
