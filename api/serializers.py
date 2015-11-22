@@ -21,7 +21,14 @@ class PledgeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pledge
-        fields = ('id', 'user', 'item', 'amount', 'token')
+        fields = ('id', 'user', 'item', 'amount', 'charge')
+
+    def create(self, validated_data):
+        pledge = Pledge.objects.create(user=validated_data['user'],
+                                       item=validated_data['item'],
+                                       amount=validated_data['amount'],
+                                       charge=validated_data['charge_id'])
+        return pledge
 
 
 class ItemSerializer(serializers.ModelSerializer):

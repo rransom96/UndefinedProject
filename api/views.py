@@ -29,6 +29,13 @@ class ListCreateList(generics.ListCreateAPIView):
         user = self.request.user
         serializer.save(user=user)
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
+
 
 class DetailUpdateList(generics.RetrieveUpdateDestroyAPIView):
     queryset = List.objects.all()
@@ -42,6 +49,13 @@ class ListCreateItem(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        list = self.request.query_params.get('list', None)
+        if list:
+            qs = qs.filter(list=list)
+        return qs
+
 
 class DetailUpdateItem(generics.RetrieveUpdateDestroyAPIView):
     queryset = Item.objects.all()
@@ -54,16 +68,24 @@ class ListPledge(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         stripe.api_key = STRIPE_API_KEY
-        token = serializer.initial_data['test']
+        token = serializer.initial_data['stripeToken']
 
         try:
             charge = stripe.Charge.create(
-            amount= serializer.initial_data['amount'],
-            currency="usd",
-            source=token,
-            description="Pledge"
-        )
+                amount= serializer.initial_data['amount'],
+                currency="usd",
+                source=token,
+                description="Pledge"
+            )
+            charge_id = charge['id']
         except stripe.error.CardError:
             pass
 
         serializer.save()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
