@@ -31,9 +31,9 @@ class ListCreateList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        user = self.request.query_params.get('user', None)
-        if user:
-            qs = qs.filter(user__id=user)
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
         return qs
 
 
@@ -85,7 +85,7 @@ class ListCreatePledge(generics.ListCreateAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        user = self.request.query_params.get('user', None)
-        if user:
-            qs = qs.filter(user__id=user)
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
         return qs
