@@ -87,5 +87,5 @@ class ListPledge(generics.ListCreateAPIView):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
         if username:
-            qs = qs.filter(user__username=username)
+            qs = qs.filter(user=username)
         return qs
