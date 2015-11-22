@@ -109,8 +109,8 @@ class PledgeTests(APITestCase):
         response_list = response.data['results'][0]
         self.assertEqual(response_list['user'], self.user2)
 
-    def test_create_item(self):
-        url = reverse('api_item_list_create')
+    def test_create_pledge(self):
+        url = reverse('api_pledge_list_create')
         data = {'user': self.user2, 'item': self.item1, 'amount': 10.00}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

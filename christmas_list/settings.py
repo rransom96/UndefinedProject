@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'django_extensions',
     'corsheaders',
-    'users',
+    'user',
     'api',
     'list',
 )
@@ -113,4 +113,4 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-STRIPE_API_KEY = os.environ['STRIPE_API_KEY']
+STRIPE_API_KEY = 'sk_test_VppkruU6sJ0mKnJsYnIVnMT0'

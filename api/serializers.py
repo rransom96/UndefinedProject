@@ -50,4 +50,3 @@ class ListSerializer(serializers.HyperlinkedModelSerializer):
         model = List
         fields = ('id', 'title', 'user', 'posted_at', 'item_set', 'price',
                   'deadline', 'inactive')
-

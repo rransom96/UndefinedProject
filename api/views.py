@@ -72,7 +72,7 @@ class ListCreatePledge(generics.ListCreateAPIView):
 
         try:
             charge = stripe.Charge.create(
-                amount= serializer.initial_data['amount'],
+                amount=serializer.initial_data['amount'],
                 currency="usd",
                 source=token,
                 description="Pledge"
