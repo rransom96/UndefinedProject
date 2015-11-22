@@ -31,9 +31,9 @@ class ListCreateList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        username = self.request.query_params.get('username', None)
-        if username:
-            qs = qs.filter(user__username=username)
+        user = self.request.query_params.get('user', None)
+        if user:
+            qs = qs.filter(user__id=user)
         return qs
 
 
@@ -53,7 +53,7 @@ class ListCreateItem(generics.ListCreateAPIView):
         qs = super().get_queryset()
         list = self.request.query_params.get('list', None)
         if list:
-            qs = qs.filter(list=list)
+            qs = qs.filter(list__id=list)
         return qs
 
 
@@ -62,7 +62,7 @@ class DetailUpdateItem(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ItemSerializer
 
 
-class ListPledge(generics.ListCreateAPIView):
+class ListCreatePledge(generics.ListCreateAPIView):
     queryset = Pledge.objects.all()
     serializer_class = PledgeSerializer
 
@@ -87,5 +87,5 @@ class ListPledge(generics.ListCreateAPIView):
         qs = super().get_queryset()
         user = self.request.query_params.get('user', None)
         if user:
-            qs = qs.filter(user=user)
+            qs = qs.filter(user__id=user)
         return qs
