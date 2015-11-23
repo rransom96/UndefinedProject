@@ -20,7 +20,6 @@ class List(models.Model):
             total += float(items.price)
             return total
 
-
     def mark_inactive(self):
         if date.today == self.deadline:
             self.inactive = True
@@ -28,7 +27,6 @@ class List(models.Model):
                 for item in self.item_set.all():
                     item.refund()
         return self.inactive
-
 
     def __str__(self):
         return self.title
@@ -64,7 +62,6 @@ class Item(models.Model):
             for pledge in self.pledge_set.all():
                 pledge.refund()
 
-
     def __str__(self):
         return self.name
 
@@ -73,7 +70,7 @@ class Pledge(models.Model):
     user = models.ForeignKey(User)
     item = models.ForeignKey(Item)
     amount = models.DecimalField(max_digits=11, decimal_places=2)
-    charge = models.CharField(max_length=255, blank=False, null=True )
+    charge = models.CharField(max_length=255, blank=False, null=True)
     pledge_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -84,3 +81,4 @@ class Pledge(models.Model):
         re = stripe.Refund.create(
             charge=self.charge
         )
+        return re

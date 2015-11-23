@@ -6,5 +6,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for lists in List.objects.all():
-            lists.inactive()
+            lists.mark_inactive()
             self.stdout.write("list {} set to inactive".format(lists.id))

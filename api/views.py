@@ -1,6 +1,8 @@
+
+from api.permissions import IsOwnerOrReadOnly
 from christmas_list.settings import STRIPE_API_KEY
 from django.contrib.auth.models import User
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from api.serializers import UserSerializer, ListSerializer, ItemSerializer, \
     PledgeSerializer
@@ -24,6 +26,7 @@ class ListCreateList(generics.ListCreateAPIView):
     queryset = List.objects.order_by('posted_at')
     serializer_class = ListSerializer
     pagination_class = SmallPagination
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -40,11 +43,14 @@ class ListCreateList(generics.ListCreateAPIView):
 class DetailUpdateList(generics.RetrieveUpdateDestroyAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
 
 
 class ListCreateItem(generics.ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save()
@@ -60,11 +66,14 @@ class ListCreateItem(generics.ListCreateAPIView):
 class DetailUpdateItem(generics.RetrieveUpdateDestroyAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
 
 
 class ListCreatePledge(generics.ListCreateAPIView):
     queryset = Pledge.objects.all()
     serializer_class = PledgeSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         stripe.api_key = STRIPE_API_KEY
