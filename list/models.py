@@ -79,6 +79,6 @@ class Pledge(models.Model):
     def refund(self):
         stripe.api_key = STRIPE_API_KEY
         re = stripe.Refund.create(
-            charge=self.charge
+            id=self.charge
         )
         return re

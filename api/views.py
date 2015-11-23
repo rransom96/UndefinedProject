@@ -32,6 +32,7 @@ class ListCreateList(generics.ListCreateAPIView):
         user = self.request.user
         serializer.save(user=user)
 
+
     def get_queryset(self):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
@@ -77,17 +78,18 @@ class ListCreatePledge(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         stripe.api_key = STRIPE_API_KEY
-        token = serializer.initial_data['stripeToken']
+        token = serializer.initial_data['token']
+        user = self.request.user
 
         try:
             charge = stripe.Charge.create(
-                amount=(100*(serializer.initial_data['amount'])),
+                amount=(100.00*float(serializer.initial_data['amount'])),
                 currency="usd",
                 source=token,
                 description="Pledge"
             )
             charge_id = charge['id']
-            serializer.save()
+            serializer.save(charge=charge_id,)
         except stripe.error.CardError:
             pass
 
