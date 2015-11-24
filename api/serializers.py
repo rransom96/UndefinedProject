@@ -3,11 +3,19 @@ from rest_framework import serializers
 from list.models import Item, List, Pledge
 
 
+class ShortListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = List
+        fields = ('id', 'title', 'posted_at', 'inactive')
+
+
 class UserSerializer(serializers.ModelSerializer):
+    list_set = ShortListSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
+        fields = ('id', 'username', 'email', 'password', 'list_set', 'pledge_set')
 
     def create(self, validated_data):
 
