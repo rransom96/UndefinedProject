@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from rest_framework.authtoken import views
 from api.views import DetailUpdateList, ListCreateList, DetailUpdateItem, \
-    ListCreateItem, ListCreateUsers, ListCreatePledge
+    ListCreateItem, ListCreateUsers, ListCreatePledge, DetailPledge
 
 urlpatterns = [
     url(r'^api-token-auth/', views.obtain_auth_token),
@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^items/$', ListCreateItem.as_view(), name='api_item_list_create'),
     url(r'^user/', ListCreateUsers.as_view(), name='api_user_list'),
     url(r'^pledges/$', ListCreatePledge.as_view(), name='api_pledge_list_create'),
+    url(r'^pledges/(?P<pk>\d+)', DetailPledge.as_view(),
+        name='api_pledge_detail'),
 ]

@@ -100,3 +100,8 @@ class ListCreatePledge(generics.ListCreateAPIView):
         if username:
             qs = qs.filter(user__username=username)
         return qs
+
+
+class DetailPledge(generics.RetrieveAPIView):
+    queryset = Pledge.objects.all()
+    serializer_class = PledgeSerializer
