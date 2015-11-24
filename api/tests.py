@@ -38,7 +38,7 @@ class ListTests(APITestCase):
         self.client.force_authenticate(user=self.user1)
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(List.objects.count(), 1)
+        self.assertEqual(List.objects.count(), 2)
         self.assertEqual(self.user1.id, response.data['user'])
 
 
@@ -65,7 +65,6 @@ class ItemTests(APITestCase):
         url = reverse('api_item_list_create')
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
         response_item = response.data['results'][0]
         self.assertEqual(response_item['name'], self.item1.name)
 

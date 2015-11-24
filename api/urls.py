@@ -12,5 +12,5 @@ urlpatterns = [
         name='api_item_detail_update'),
     url(r'^items/$', ListCreateItem.as_view(), name='api_item_list_create'),
     url(r'^user/', ListCreateUsers.as_view(), name='api_user_list'),
-    url(r'^pledges/$', ListCreatePledge.as_view(), name='api_pledge_list'),
+    url(r'^pledges/$', ListCreatePledge.as_view(), name='api_pledge_list_create'),
 ]
