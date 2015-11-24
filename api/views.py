@@ -26,7 +26,7 @@ class ListCreateList(generics.ListCreateAPIView):
     queryset = List.objects.order_by('posted_at')
     serializer_class = ListSerializer
     pagination_class = SmallPagination
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -44,8 +44,8 @@ class ListCreateList(generics.ListCreateAPIView):
 class DetailUpdateList(generics.RetrieveUpdateDestroyAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+    #                       IsOwnerOrReadOnly)
 
 
 class ListCreateItem(generics.ListCreateAPIView):
@@ -66,14 +66,14 @@ class ListCreateItem(generics.ListCreateAPIView):
 class DetailUpdateItem(generics.RetrieveUpdateDestroyAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+    #                       IsOwnerOrReadOnly)
 
 
 class ListCreatePledge(generics.ListCreateAPIView):
     queryset = Pledge.objects.all()
     serializer_class = PledgeSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         stripe.api_key = STRIPE_API_KEY
